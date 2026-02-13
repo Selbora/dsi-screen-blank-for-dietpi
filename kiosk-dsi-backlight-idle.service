@@ -1,0 +1,22 @@
+[Unit]
+Description=Kiosk DSI Idle Backlight Control
+After=graphical.target
+
+[Service]
+Type=simple
+
+# Run as root so we can write to /sys/class/backlight/.../brightness
+User=root
+
+# Ensure we can read X idle time
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/dietpi/.Xauthority
+
+# Run script via bash (avoids noexec issues on /home)
+ExecStart=/bin/bash /home/dietpi/kiosk-dsi-backlight-idle.sh
+
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical.target
